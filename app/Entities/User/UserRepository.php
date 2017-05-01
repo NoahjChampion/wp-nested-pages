@@ -17,6 +17,12 @@ class UserRepository
 	public function getRoles()
 	{
 		global $current_user;
+
+		// If current user is superadmin (WP Multisite) add administrator to the roles array
+ 		if (function_exists('is_multisite') && is_multisite() && is_super_admin()) {
+ 			$current_user->roles[] = 'administrator';
+ 		}
+
 		return $current_user->roles;
 	}
 
